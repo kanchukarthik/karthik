@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile Card Creator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #eaeaea;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 30px;
+      border: 15px lightgoldenrodyellow;
+    
+    }
+
+    .container {
+      background: #fff;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      max-width: 450px;
+      width: 100%;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input, textarea, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: pink;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    #profileCard {
+      margin-top: 30px;
+      padding: 20px;
+      border: 40px solid cyan;
+      border-radius: 10px;
+      background-color: green;
+      text-align: center;
+      transition: background 0.3s, border-color 0.3s;
+      cursor: pointer;
+    }
+
+    #profileCard.clicked {
+      background-color: #ffb347; 
+      border-color: #ff6347;     
+    }
+
+    #profileCard:hover {
+      background-color: blueviolet; 
+      border-color: 50px cyan;     
+    }
+
+    #cardImage {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      margin-bottom: 10px;
+      transition: filter 0.3s;
+    }
+
+    #cardImage:hover {
+      filter: brightness(3.6) sepia(1) hue-rotate(180deg);
+      cursor: pointer;
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 15px;
+      }
+      #cardImage {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  .container {
+    padding: 15px 5px;
+    max-width: 100%;
+  }
+
+    .square {
+      border-radius: 0%;
+    }
+
+    .rounded {
+      border-radius: 15px;
+    }
+
+    .circle {
+      border-radius: 50%;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>👤 Create Your Profile Card</h1>
+    <form id="profileForm">
+      <input type="text" id="name" placeholder="Your Name" required>
+      <textarea id="bio" placeholder="A short bio about you..." rows="3" required></textarea>
+      <input type="file" id="image" accept="image/*" required>
+      <label for="borderStyle">Choose Border Style:</label>
+      <select id="borderStyle">
+        <option value="square">🟦 Square</option>
+        <option value="rounded">🔲 Rounded</option>
+        <option value="circle">⚪ Circle</option>
+      </select>
+      <button type="submit">Generate Card</button>
+    </form>
+
+    <div id="profileCard" class="hidden">
+      <img id="cardImage" src="" alt="Profile Picture">
+      <h2 id="cardName"></h2>
+      <p id="cardBio"></p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("profileForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const bio = document.getElementById("bio").value;
+      const image = document.getElementById("image").files[0];
+      const style = document.getElementById("borderStyle").value;
+
+      const reader = new FileReader();
+      reader.onload = function() {
+        const img = document.getElementById("cardImage");
+        img.src = reader.result;
+        img.className = style;
+
+        document.getElementById("cardName").innerText = name;
+        document.getElementById("cardBio").innerText = bio;
+        document.getElementById("profileCard").classList.remove("hidden");
+        document.getElementById("profileCard").classList.remove("clicked");
+      };
+      reader.readAsDataURL(image);
+    });
+
+    // Toggle color on card click
+    document.getElementById("profileCard").addEventListener("click", function() {
+      this.classList.toggle("clicked");
+    });
+  </script>
+
+</body>
+</html>
